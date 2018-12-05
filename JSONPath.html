@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="generator"
+    content="Simple HTML, JavaScript, Bootstrap based JSONPath utility" />
+    <title>JSONPath Online</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+function retrieveJSONPath() {
+   document.getElementById("result").value = "";
+   var jsonpath = document.getElementById("jsonpath").value;
+   var result;
+   
+   try {
+       document.getElementById('duration').innerHTML = '';
+       var start = new Date().getTime();
+       var json = JSON.parse(document.getElementById("json").value);
+       result = JSON.stringify(jsonPath(json,jsonpath), null, 4);
+       var end = new Date().getTime();
+       document.getElementById('duration').innerHTML = '\t' + (end - start) + ' ms';
+   } catch(e) {
+       result = e;
+   }
+   document.getElementById("result").value = result;
+}
+
+function readFile() {
+    var file = document.getElementById("jsonFile").files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var textArea = document.getElementById("json");
+        textArea.value = e.target.result;
+    };
+    reader.readAsText(file);
+};
+</script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <h3>JSONPath Online!</h3>
+          <br />
+          <div class="row">
+            <div class="input-group col-md-4">
+            <input id="jsonpath" name="jsonpath" placeholder="$.store.*" autocomplete="off" class="form-control" /> 
+            <span class="input-group-btn">
+              <button id="submit" class="btn btn-primary" onclick="retrieveJSONPath()" type="button">
+                    <span>Go!</span>
+              </button>
+            </span></div>
+            <br />
+            <br />
+          </div>
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="col-md-6">
+                  <div class="custom-file">
+                    <input name="jsonFile" type="file" id="jsonFile" onchange="readFile()" />
+                  </div><br/>
+                  <textarea class="form-control" rows="15" id="json">
+{
+    "store": {
+        "book": [
+            {
+                "category": "reference",
+                "author": "Nigel Rees",
+                "title": "Sayings of the Century",
+                "price": 8.95
+            },
+            {
+                "category": "fiction",
+                "author": "Evelyn Waugh",
+                "title": "Sword of Honour",
+                "price": 12.99
+            },
+            {
+                "category": "fiction",
+                "author": "Herman Melville",
+                "title": "Moby Dick",
+                "isbn": "0-553-21311-3",
+                "price": 8.99
+            },
+            {
+                "category": "fiction",
+                "author": "J. R. R. Tolkien",
+                "title": "The Lord of the Rings",
+                "isbn": "0-395-19395-8",
+                "price": 22.99
+            }
+        ],
+        "bicycle": {
+            "color": "red",
+            "price": 19.95
+        }
+    },
+    "expensive": 10
+}</textarea>
+                </div>
+                <div class="col-md-6">
+                <br /> <label for="comment">Result</label> <span id="duration"></span><br />
+                <textarea class="form-control" rows="15" id="result"></textarea></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+<script src="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jsonpath/jsonpath-0.8.0.js.txt"></script>
+  </body>
+</html>
