@@ -18,8 +18,12 @@ function retrieveJSONPath() {
    try {
        document.getElementById('duration').innerHTML = '';
        var start = new Date().getTime();
+
+       // Evaluate Path
+       evaluate_path(jsonpath);
+
        var json = JSON.parse(document.getElementById("json").value);
-       result = JSON.stringify(jsonPath(json,jsonpath), null, 4);
+       result = JSON.stringify(jsonpath_query(json, jsonpath), null, 4);
        var end = new Date().getTime();
        document.getElementById('duration').innerHTML = '\t' + (end - start) + ' ms';
    } catch(e) {
@@ -113,6 +117,6 @@ function readFile() {
       </div>
       <div class="col-md-1"></div>
     </div>
-<script src="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jsonpath/jsonpath-0.8.0.js.txt"></script>
+<script src="jsonpath.js"></script>
   </body>
 </html>
